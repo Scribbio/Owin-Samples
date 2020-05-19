@@ -12,28 +12,28 @@ namespace Owin03_Middleware {
 
         public void Configuration(IAppBuilder app) {
 
-            // Using func
+            // Blog section 4, Using func
             app.Use(new Func<AppFunc, AppFunc>(next => (async env => {
                 Console.WriteLine("Middleware with AppFunc begin.");
                 await next.Invoke(env);
                 Console.WriteLine("Middleware with AppFunc end.");
             })));
 
-            // Using IOwinContext
+            // Blog section 7, using IOwinContext
             app.Use(async (context, next) => {
                 Console.WriteLine("Middleware with Lambda begin.");
                 await next();
                 Console.WriteLine("Middleware with Lambda end.");
             });
 
-            // Use Middleware as a type
+            //  Blog section 9, Owin as type Use Middleware as a type
             app.Use<LogMiddleware>();
 
-            // Use Middleware as an instance
+            // Blog section 9, Use Middleware as an instance
             var instance = new InstanceMiddleware();
             app.Use(instance);
 
-            // Use Middleware as a type     
+            // Blog section 8, Use Middleware as a type     
             app.Use<LogOwinMiddleware>();
 
         }
